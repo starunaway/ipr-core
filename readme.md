@@ -1,15 +1,25 @@
 # 文档
 
+## webpack.config
+
+_*一些需要注意的地方*_
+
+1. 配置文件不在根目录下，使用 `path.resolve` 的时候需要定位到指定目录
+
+1. `config.resolve.extensions = ['.ts', '.tsx', '.js', '.jsx']`
+   在编译过程中会有 `js` 文件产生，不能只写 `ts`
+1. `babel-loader` 需要 `exclude` `node_modules`,否则会处理 `node_modules`下的文件，`break some code`
+
 ## packge.json
 
-```json
+```javascript
 {
   //  程序入口
   // main 是commonJS模块 ，module 是 ES Module，
   // 被用户使用后，require() 或 import的时候 优先使用 module 的路径
   "main": "lib/index.js",
   "module": "es/index.js",
-  //    指定ts的typing文件，方便用户使用的时候显示类型
+  // 指定ts的typing文件，方便用户使用的时候显示类型
   "typings": "index.d.ts",
   // 指定内部命令对应的可执行文件
   "bin": {
@@ -20,7 +30,7 @@
 
 ## [tsconfig 配置选项](https://www.tslang.cn/docs/handbook/tsconfig-json.html)
 
-```json
+```javascript
 {
   // IDE在保存文件的时候根据tsconfig.json重新生成文件，自动编译
   "compileOnSave": true,

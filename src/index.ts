@@ -1,3 +1,3 @@
-function say() {
-  console.log('hello world!');
-}
+import {a} from './app';
+
+console.log(a);

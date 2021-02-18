@@ -5,14 +5,10 @@ const path = require('path');
 module.exports = {
   mode: 'development',
   devtool: 'inline-source-map',
-  plugins: [
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.HotModuleReplacementPlugin(),
-    new CaseSensitivePathsPlugin(),
-  ],
+  plugins: [new webpack.HotModuleReplacementPlugin(), new CaseSensitivePathsPlugin()],
 
   devServer: {
-    contentBase: path.resolve(process.cwd(), 'dist'),
+    contentBase: path.resolve(__dirname, '../dist'),
     compress: true,
     port: 10086,
     hot: true,

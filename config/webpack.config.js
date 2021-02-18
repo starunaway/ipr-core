@@ -15,10 +15,6 @@ const isEnvDev = process.env.NODE_ENV === 'development';
 const isEnvPrd = process.env.NODE_ENV === 'production';
 
 const hasJsxRuntime = (() => {
-  if (process.env.DISABLE_NEW_JSX_TRANSFORM === 'true') {
-    return false;
-  }
-
   try {
     require.resolve('react/jsx-runtime');
     return true;
@@ -27,16 +23,18 @@ const hasJsxRuntime = (() => {
   }
 })();
 
+console.log('__dirname', __dirname, path.resolve(__dirname, '../src'));
 const baseConfig = {
-  entry: path.resolve(__dirname, 'src'),
+  entry: path.resolve(__dirname, '../src'),
   output: {
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, '../dist'),
     filename: `static/js/[name].[hash:8].js`,
     //  配置按需加载时外部资源的路径（可能放到其他目录下，在代码中引用的时候需要注意）
     publicPath: '/',
   },
   resolve: {
-    extensions: ['.ts', '.tsx'],
+    //  在编译过程中会有js文件产生，不能只写ts
+    extensions: ['.ts', '.tsx', '.js', '.jsx'],
     alias: {
       // 如果有些包直接使用cdn接入，需要配置别名防止出错
       //   react: resolve(node_modules, 'react'),
@@ -91,6 +89,7 @@ const baseConfig = {
             loader: require.resolve('babel-loader'),
             options: {
               customize: require.resolve('babel-preset-react-app/webpack-overrides'),
+              exclude: /node_modules/,
               presets: [
                 [
                   require.resolve('babel-preset-react-app'),
