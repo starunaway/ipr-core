@@ -7,7 +7,7 @@
     "esModuleInterop": true,
     "outDir": "build/dist/",
     "rootDirs": ["src"],
-    "jsx": "react",
+    "jsx": "react-jsx",
     "strict": true,
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
