@@ -20,8 +20,7 @@
     "moduleResolution": "node",
     "noImplicitReturns": true,
     "suppressImplicitAnyIndexErrors": true,
-    "noUnusedLocals": true,
-    "allowJs": false,
+    "allowJs": true,
     "experimentalDecorators": true
   },
   "include": ["src/**/*"],

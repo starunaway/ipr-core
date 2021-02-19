@@ -23,7 +23,6 @@ const hasJsxRuntime = (() => {
   }
 })();
 
-console.log('__dirname', __dirname, path.resolve(__dirname, '../src'));
 const baseConfig = {
   entry: path.resolve(__dirname, '../src'),
   output: {
