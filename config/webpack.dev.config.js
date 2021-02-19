@@ -1,11 +1,27 @@
 const webpack = require('webpack');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
+// const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 const path = require('path');
 
 module.exports = {
   mode: 'development',
   devtool: 'inline-source-map',
-  plugins: [new webpack.HotModuleReplacementPlugin(), new CaseSensitivePathsPlugin()],
+  plugins: [
+    new webpack.HotModuleReplacementPlugin(),
+    new CaseSensitivePathsPlugin(),
+
+    // new ReactRefreshWebpackPlugin({
+    //   overlay: {
+    //     entry: webpackDevClientEntry,
+    //     // The expected exports are slightly different from what the overlay exports,
+    //     // so an interop is included here to enable feedback on module-level errors.
+    //     module: reactRefreshOverlayEntry,
+    //     // Since we ship a custom dev client and overlay integration,
+    //     // the bundled socket handling logic can be eliminated.
+    //     // sockIntegration: false,
+    //   },
+    // }),
+  ],
 
   devServer: {
     contentBase: path.resolve(__dirname, '../dist'),

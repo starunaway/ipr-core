@@ -86,6 +86,7 @@ const baseConfig = {
             // js
             test: /\.(js|mjs|jsx|ts|tsx)$/,
             loader: require.resolve('babel-loader'),
+            include: path.resolve(__dirname, '../src'),
             options: {
               customize: require.resolve('babel-preset-react-app/webpack-overrides'),
               exclude: /node_modules/,
@@ -109,7 +110,7 @@ const baseConfig = {
                     },
                   },
                 ],
-                isEnvDev && require.resolve('react-refresh/babel'),
+                // isEnvDev && require.resolve('react-refresh/babel'),
               ].filter(Boolean),
               // This is a feature of `babel-loader` for webpack (not Babel itself).
               // It enables caching results in ./node_modules/.cache/babel-loader/
