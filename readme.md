@@ -1,5 +1,12 @@
 # 文档
 
+## 本地运行打包后的文件
+
+```bash
+npm install -g serve
+serve -s dist
+```
+
 ## webpack.config
 
 _*一些需要注意的地方*_
