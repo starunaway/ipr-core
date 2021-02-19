@@ -203,6 +203,8 @@ const baseConfig = {
     // You can remove this if you don't use Moment.js:
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
 
+    // 为了避免webpack因为生成众多的scss.d.ts而导致速度变慢
+    new webpack.WatchIgnorePlugin([/css\.d\.ts$/]),
     // TypeScript type checking
     new ForkTsCheckerWebpackPlugin({
       async: isEnvDev,

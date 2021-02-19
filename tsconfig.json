@@ -21,7 +21,11 @@
     "noImplicitReturns": true,
     "suppressImplicitAnyIndexErrors": true,
     "allowJs": true,
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules"]
