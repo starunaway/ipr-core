@@ -11,8 +11,6 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const safePostCssParser = require('postcss-safe-parser');
 const ManifestPlugin = require('webpack-manifest-plugin');
-const InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
-const WorkboxWebpackPlugin = require('workbox-webpack-plugin');
 const WatchMissingNodeModulesPlugin = require('react-dev-utils/WatchMissingNodeModulesPlugin');
 const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
 const getCSSModuleLocalIdent = require('react-dev-utils/getCSSModuleLocalIdent');
@@ -51,9 +49,6 @@ const imageInlineSizeLimit = parseInt(
 
 // Check if TypeScript is setup
 const useTypeScript = fs.existsSync(paths.appTsConfig);
-
-// Get the path to the uncompiled service worker (if it exists).
-const swSrc = paths.swSrc;
 
 // style files regexes
 const cssRegex = /\.css$/;
@@ -110,8 +105,6 @@ module.exports = function (webpackEnv) {
   const env = getClientEnvironment('');
 
   const shouldUseReactRefresh = env.raw.FAST_REFRESH;
-
-  console.log('shouldUseReactRefresh:', shouldUseReactRefresh);
 
   // common function to get style loaders
   const getStyleLoaders = (cssOptions, preProcessor) => {
@@ -581,6 +574,7 @@ module.exports = function (webpackEnv) {
         Object.assign(
           {},
           {
+            title: 'MyTitle',
             inject: true,
             template: paths.appHtml,
           },
@@ -608,12 +602,6 @@ module.exports = function (webpackEnv) {
       isEnvProduction &&
         shouldInlineRuntimeChunk &&
         new InlineChunkHtmlPlugin(HtmlWebpackPlugin, [/runtime-.+[.]js/]),
-      // Makes some environment variables available in index.html.
-      // The public URL is available as %PUBLIC_URL% in index.html, e.g.:
-      // <link rel="icon" href="%PUBLIC_URL%/favicon.ico">
-      // It will be an empty string unless you specify "homepage"
-      // in `package.json`, in which case it will be the pathname of that URL.
-      new InterpolateHtmlPlugin(HtmlWebpackPlugin, env.raw),
       // This gives some necessary context to module not found errors, such as
       // the requesting resource.
       new ModuleNotFoundPlugin(paths.appPath),
@@ -687,19 +675,7 @@ module.exports = function (webpackEnv) {
       // https://github.com/jmblog/how-to-optimize-momentjs-with-webpack
       // You can remove this if you don't use Moment.js:
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-      // Generate a service worker script that will precache, and keep up to date,
-      // the HTML & assets that are part of the webpack build.
-      isEnvProduction &&
-        fs.existsSync(swSrc) &&
-        new WorkboxWebpackPlugin.InjectManifest({
-          swSrc,
-          dontCacheBustURLsMatching: /\.[0-9a-f]{8}\./,
-          exclude: [/\.map$/, /asset-manifest\.json$/, /LICENSE/],
-          // Bump up the default maximum size (2mb) that's precached,
-          // to make lazy-loading failure scenarios less likely.
-          // See https://github.com/cra-template/pwa/issues/13#issuecomment-722667270
-          maximumFileSizeToCacheInBytes: 5 * 1024 * 1024,
-        }),
+
       // TypeScript type checking
       useTypeScript &&
         new ForkTsCheckerWebpackPlugin({

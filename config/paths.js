@@ -26,7 +26,6 @@ module.exports = {
   appTsConfig: path.resolve(__dirname, '../tsconfig.json'),
   proxySetup: path.resolve(__dirname, '../src/setupProxy.js'),
   appNodeModules: path.resolve(__dirname, '../node_modules'),
-  swSrc: path.resolve(__dirname, '../src/service-worker.ts'),
   publicUrlOrPath: '/',
 };
 
