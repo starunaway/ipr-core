@@ -1,6 +1,7 @@
 import {useState, useEffect} from 'react';
 
-function HomePage() {
+function HomePage(props: any) {
+  console.log('HomePage', props);
   const [name, setName] = useState('home');
   useEffect(() => {
     return () => {};
