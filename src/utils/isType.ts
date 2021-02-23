@@ -7,3 +7,11 @@ export function isHTMLElement(node: any) {
     return false;
   }
 }
+
+export function isArray(t: any) {
+  return Object.prototype.toString.call(t).includes('Array');
+}
+
+export function isFunction(f: any) {
+  return Object.prototype.toString.call(f).includes('Function');
+}
