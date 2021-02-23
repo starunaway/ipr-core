@@ -1,6 +1,8 @@
-import ReactDOM from 'react-dom';
+import App from '@/app';
+import routes from '@/routes';
 
-import App from '@/pages/index';
-import './themes';
+const app = new App();
 
-ReactDOM.render(<App />, document.getElementById('root'));
+app.router(routes);
+
+app.start('#root');
