@@ -6,7 +6,7 @@ import {Provider} from 'react-redux';
 import createSagaMiddleware from 'redux-saga';
 import createStore from './redux';
 import reducerBuilder from './redux/reducerBuilder';
-import sagaBuilder from './redux/sagaBuilder';
+// import sagaBuilder from './redux/sagaBuilder';
 
 class IprApp implements AppApi {
   router?: (app: IprApp) => JSX.Element;
@@ -52,6 +52,7 @@ class IprApp implements AppApi {
     // }
 
     const reducers = reducerBuilder(this.models, this.onReducer);
+    console.log('buildStore: reducers: ', reducers);
 
     this.store = createStore({
       reducers,
