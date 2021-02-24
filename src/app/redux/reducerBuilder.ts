@@ -1,6 +1,6 @@
 import {ModelApi, OnReducerApi, ReducerHandler} from '../types';
 import {combineReducers, Reducer} from 'redux';
-import {isArray} from '@/utils/isType';
+import {isArray, isObject} from '@/utils/isType';
 
 function reducerBuilder(
   options: Array<ModelApi | Array<ModelApi>>,
@@ -78,7 +78,11 @@ function initialReducerGroup(
     if (reducer.single) {
       initialState = reducer.initialState || {};
     } else {
-      overrideState(initialState, reducer.subKeys, reducer.initialState);
+      overrideState(
+        initialState,
+        reducer.subKeys as string[],
+        reducer.initialState
+      );
     }
 
     const reducerAction = reducer.action || reducer.key;
@@ -149,6 +153,8 @@ function initialReducerGroup(
       }
     );
   }
+
+  return createReducer(initialState, handlers);
 }
 
 function overrideState(state: any, keys: Array<string>, value: any = {}) {
@@ -192,9 +198,30 @@ function createReducerHandler(
       state = result;
     } else {
       state = {...state};
-      overrideState(state, reducer.subKeys, result);
+      overrideState(state, reducer.subKeys as string[], result);
     }
     return state;
+  };
+}
+
+function createReducer(initialState: object, handlers: object) {
+  if (!initialState) {
+    throw new Error('Initial state is required');
+  }
+  if (!isObject(handlers)) {
+    throw new Error('Handlers must be an object');
+  }
+
+  return (state = initialState, action: any) => {
+    if (!action || !action.type) {
+      return state;
+    }
+    const handler = handlers[action.type];
+    const newState = !handler ? state : handler(state, action);
+    if (!action.type.includes('__FAILURE')) {
+      delete newState.error;
+    }
+    return newState;
   };
 }
 

@@ -17,7 +17,7 @@ export type ReducerHandler = (state: any, action: any) => any;
 
 export interface ModelApi {
   key: string;
-  subKeys: Array<string>;
+  subKeys?: Array<string>;
   action?: string;
   initialState?: any;
   method?: string;

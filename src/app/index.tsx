@@ -51,6 +51,7 @@ class IprApp implements AppApi {
     //   }
     // }
 
+    debugger;
     const reducers = reducerBuilder(this.models, this.onReducer);
     console.log('buildStore: reducers: ', reducers);
 

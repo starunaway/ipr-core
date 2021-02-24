@@ -15,3 +15,7 @@ export function isArray(t: any) {
 export function isFunction(f: any) {
   return Object.prototype.toString.call(f).includes('Function');
 }
+
+export function isObject(o: any) {
+  return Object.prototype.toString.call(o).includes('Object');
+}
