@@ -4,7 +4,7 @@ import {Store} from 'redux';
 export interface AppOptions {
   onEffect?: () => any;
   onFetchOption?: () => any;
-  onReducer?: () => any;
+  onReducer?: ReducerHandler;
   historyType?: any;
 }
 

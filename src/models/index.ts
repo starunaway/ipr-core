@@ -7,6 +7,7 @@ const history = [
     key: 'history.bonds',
     method: 'post',
   },
+
   {
     key: 'history.spread',
     method: 'post',
@@ -35,6 +36,10 @@ const scatter = [
     method: 'get',
   },
   {
+    key: 'scatter.curve.bondThree',
+    method: 'get',
+  },
+  {
     key: 'scatter.curve',
     method: 'post',
     initialState: {
@@ -58,6 +63,6 @@ const history1 = {
   method: 'post',
 };
 
-const models = [...scatter, scatter1];
+const models = [...history, ...scatter];
 
 export default models;

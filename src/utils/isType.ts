@@ -19,3 +19,7 @@ export function isFunction(f: any) {
 export function isObject(o: any) {
   return Object.prototype.toString.call(o).includes('Object');
 }
+
+export function isEmptyObject(o: any) {
+  return !Object.keys(o).length;
+}

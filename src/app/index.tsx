@@ -1,12 +1,12 @@
 import ReactDOM from 'react-dom';
 import {isHTMLElement} from '@/utils/isType';
 import {createBrowserHistory, createHashHistory, History} from 'history';
-import {AppOptions, HistoryType, AppApi, ModelApi} from './types';
-import {Provider} from 'react-redux';
+import {AppOptions, HistoryType, AppApi, ModelApi, OnReducerApi} from './types';
 import createSagaMiddleware from 'redux-saga';
-import createStore from './redux';
-import reducerBuilder from './redux/reducerBuilder';
+import createStore from './reducer';
+import reducerBuilder from './reducer/reducerBuilder';
 // import sagaBuilder from './redux/sagaBuilder';
+import renderApp from './renderApp';
 
 class IprApp implements AppApi {
   router?: (app: IprApp) => JSX.Element;
@@ -15,7 +15,7 @@ class IprApp implements AppApi {
 
   private onEffect?: () => any;
   private onFetchOption?: () => any;
-  private onReducer?: () => any;
+  private onReducer?: OnReducerApi;
   private models: any[];
 
   constructor(opts: AppOptions) {
@@ -51,7 +51,6 @@ class IprApp implements AppApi {
     //   }
     // }
 
-    debugger;
     const reducers = reducerBuilder(this.models, this.onReducer);
     console.log('buildStore: reducers: ', reducers);
 
@@ -111,14 +110,6 @@ class IprApp implements AppApi {
       ReactDOM.render(dom, container);
     }
   };
-}
-
-function renderApp(app: IprApp): JSX.Element | void {
-  if (app.router) {
-    return <Provider store={app.store}> {app.router(app)} </Provider>;
-  }
-
-  throw new Error(' app.setRouter() must be called ');
 }
 
 function patchHistory(history: History) {
