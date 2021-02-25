@@ -11,13 +11,15 @@ import {isFunction} from '@/utils/isType';
  * @param onReducer
  */
 function reducerBuilder(
-  options: Array<ModelApi>,
+  options: Array<ModelApi | Array<ModelApi>>,
   onReducer?: OnReducerApi
 ): Reducer {
   const reducers = {};
   const reducerGroups = new Map();
 
-  options.forEach((reducer) => {
+  const optionsArr = options.flat();
+
+  optionsArr.forEach((reducer) => {
     if (!reducer.key) {
       throw new Error('you should define a key ');
     }
@@ -101,6 +103,24 @@ function buildReducerGroup(reducerGroup: GroupType, onReducer?: OnReducerApi) {
 
     // action可能需异步处理，注入不同的状态处理函数
     handlers[action] = createReducerHandler(
+      reducer,
+      'reducer',
+      (state: any, action: any) => {
+        const {payload, ...other} = action;
+        let newState = {
+          ...payload,
+          ...other,
+        };
+        delete newState.type;
+
+        if (onReducer) {
+          newState = onReducer(newState, state, action, 'loading');
+        }
+
+        return newState;
+      }
+    );
+    handlers[`${action}__LOADING`] = createReducerHandler(
       reducer,
       'loading',
       (state: any, action: any) => {

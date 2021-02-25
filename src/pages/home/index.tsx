@@ -1,16 +1,22 @@
 import {useState, useEffect} from 'react';
+import {connect} from 'react-redux';
+import Action from '@/action';
 
 function HomePage(props: any) {
   console.log('HomePage', props);
-  const [name, setName] = useState('home');
-  useEffect(() => {
-    return () => {};
-  }, []);
-  useEffect(() => {
-    console.log(name);
-  }, [name]);
+  const {bondThree} = props;
 
-  return <Component name={name} setName={setName}></Component>;
+  useEffect(() => {
+    console.log(bondThree.bondName);
+  }, [bondThree.bondName]);
+
+  const setName = (value: string) => {
+    Action.emit('scatter.curve.bondThree', {
+      bondName: bondThree.bondName + value,
+    });
+  };
+
+  return <Component name={bondThree.bondName} setName={setName}></Component>;
 }
 
 interface ComponentProps {
@@ -22,7 +28,7 @@ function Component(props: ComponentProps) {
   return (
     <div
       onClick={() => {
-        props.setName(props.name + '1');
+        props.setName('1');
       }}
     >
       {props.name}
@@ -30,4 +36,10 @@ function Component(props: ComponentProps) {
   );
 }
 
-export default HomePage;
+function mapStateToProps(state: any) {
+  return {
+    bondThree: state.scatter.curve.bondThree,
+  };
+}
+
+export default connect(mapStateToProps)(HomePage);

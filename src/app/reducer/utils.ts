@@ -10,7 +10,6 @@ import {isEmptyObject} from '@/utils/isType';
 export function isStateLegal(state: any, reducer: ModelApi) {
   const reducerKey = reducer.key.split('.');
   reducerKey.shift();
-  console.log('reducerKey', reducerKey);
   const reducerStateKeys = isEmptyObject(reducer.initialState || {})
     ? [reducerKey.join('.')]
     : Object.keys(reducer.initialState || {}).map(
@@ -18,8 +17,6 @@ export function isStateLegal(state: any, reducer: ModelApi) {
       );
 
   const stateKeys = getDeepStateKey(state).flat();
-  console.log(stateKeys);
-  console.log('reducerStateKeys', reducerStateKeys);
 
   const hasKey = reducerStateKeys.some((key) =>
     stateKeys.some(

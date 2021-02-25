@@ -52,7 +52,6 @@ class IprApp implements AppApi {
     // }
 
     const reducers = reducerBuilder(this.models, this.onReducer);
-    console.log('buildStore: reducers: ', reducers);
 
     this.store = createStore({
       reducers,

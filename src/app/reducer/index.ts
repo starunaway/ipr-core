@@ -16,8 +16,6 @@ function createIprStore(opts: any) {
     devTools = (window as any).__REDUX_DEVTOOLS_EXTENSION__;
   }
 
-  console.log(process.env.NODE_ENV);
-
   const enhancers = [applyMiddleware(...middlewares), devTools()];
 
   return createStore(reducers, initialState, compose(...enhancers));

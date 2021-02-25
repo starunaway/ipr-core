@@ -38,14 +38,19 @@ const scatter = [
   {
     key: 'scatter.curve.bondThree',
     method: 'get',
-  },
-  {
-    key: 'scatter.curve',
-    method: 'post',
     initialState: {
-      bondThree: {},
+      bondName: '999999999',
+    },
+    reducer: (state: any, action: any) => {
+      return {
+        bondName: `${state.curve.bondThree.bondName},${action.payload.bondName}`,
+      };
     },
   },
+  //   {
+  //     key: 'scatter.curve',
+  //     method: 'post',
+  //   },
 ];
 
 const scatter1 = [
@@ -63,6 +68,6 @@ const history1 = {
   method: 'post',
 };
 
-const models = [...history, ...scatter];
+const models = [history, ...scatter];
 
 export default models;
