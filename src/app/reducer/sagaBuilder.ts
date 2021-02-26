@@ -1,5 +1,7 @@
+import {isFunction} from '@/utils/isType';
 import {fork, call, put, takeEvery} from 'redux-saga/effects';
-import {ModelApi} from '../types';
+import {AppOptions, ModelApi} from '../types';
+import axios from 'axios';
 
 function sagaBuilder(models: Array<ModelApi | Array<ModelApi>>, args: any) {
   const sagaModels = models.flat();
@@ -29,9 +31,12 @@ type PutAction = {
   error?: any;
 };
 
-function createSaga(model: ModelApi, args: any) {
-  //   const {onFetchOption, onEffect, history} = args;
-  console.log(args, model.key);
+type CreateOptions = AppOptions & {
+  history: History;
+};
+
+function createSaga(model: ModelApi, args: CreateOptions) {
+  const {onFetchOption, onEffect, history} = args;
   return function* () {
     //    处理 action 对应的 网络请求
     yield takeEvery(model.key, function* (action) {
@@ -47,18 +52,30 @@ function createSaga(model: ModelApi, args: any) {
       yield put(putAction);
 
       try {
-        const response: {} = yield call(Api.getUser, action);
+        let options = createOption(model, (action as any).payload);
+        if (isFunction(onFetchOption)) {
+          options = onFetchOption && onFetchOption(options, model);
+        }
+
+        const response: {} = yield call(axios, options);
+
         if (response) {
-          putAction = {
-            type: `${model.key}__${
-              (response as any).status === 200 ? 'SUCCESS' : 'FAILURE'
-            }`,
-            payload: (action as any).payload,
-            success: (response as any).status === 200,
-            loading: false,
-            //    不加yield ？
-            result: (response as any).json(),
-          };
+          if (onEffect) {
+            putAction.url = (model as any).url((action as any).payload);
+            putAction = yield onEffect(putAction, response, history);
+          } else {
+            putAction = {
+              type: '',
+              payload: (action as any).payload,
+              success: (response as any).status === 200,
+              loading: false,
+              //    不加yield ？
+              result: (response as any).json(),
+            };
+          }
+          putAction.type = `${model.key}__${
+            (response as any).status === 200 ? 'SUCCESS' : 'FAILURE'
+          }`;
 
           yield put(putAction);
         }
@@ -78,10 +95,38 @@ function createSaga(model: ModelApi, args: any) {
   };
 }
 
-function Api() {}
-Api.getUser = function (...args: any): any {
-  console.log('Api.getUser', ...args);
-  return new Promise((resolve) => resolve(666));
-};
+function createOption(model: ModelApi, payload: any) {
+  const {method, type = 'json', headers, bodyParser} = model;
+  const option: any = {};
+  option.method = method || 'get';
+  option.url = (model.url as any)(payload);
+  option.headers = headers || {
+    Accept: 'application/json',
+    'Content-Type':
+      type === 'json'
+        ? 'application/json'
+        : 'application/x-www-form-urlencoded',
+  };
+
+  if (option.method !== 'get' && payload) {
+    if (bodyParser) {
+      option.data = bodyParser(payload);
+    } else {
+      if (type === 'json') {
+        option.data = JSON.stringify(payload);
+      } else if (type === 'form') {
+        let pairs = [];
+        for (let key of payload) {
+          pairs.push(key + '=' + payload[key]);
+        }
+        option.data = pairs.join('&');
+      } else {
+        option.data = payload;
+      }
+    }
+  }
+
+  return option;
+}
 
 export default sagaBuilder;

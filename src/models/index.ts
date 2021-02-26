@@ -46,7 +46,7 @@ const scatter = [
     },
     reducer: (state: any, action: any) => {
       return {
-        bondName: `${state.curve.bondThree.bondName},${action.payload.bondName}`,
+        bondName: `${action.payload.bondName}`,
       };
     },
   },

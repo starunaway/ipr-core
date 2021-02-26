@@ -2,7 +2,7 @@ import {History} from 'history';
 import {Store} from 'redux';
 
 export interface AppOptions {
-  onEffect?: () => any;
+  onEffect?: (action?: any, response?: any, history?: any) => any;
   onFetchOption?: (option: any, reducer: ModelApi) => any;
   onReducer?: ReducerHandler;
   historyType?: any;
@@ -24,7 +24,7 @@ export interface ModelApi {
   url?: (payload: any) => string;
   single?: boolean;
   headers?: object;
-  body?: () => any;
+  bodyParser?: (payload: any) => any;
   payload?: any;
   loading?: ReducerHandler;
   success?: ReducerHandler;

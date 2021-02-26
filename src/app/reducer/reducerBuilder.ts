@@ -133,6 +133,7 @@ function buildReducerGroup(reducerGroup: GroupType, onReducer?: OnReducerApi) {
           ...other,
         };
 
+        delete newState.type;
         if (onReducer) {
           newState = onReducer(newState, state, action, 'loading');
         }
@@ -144,20 +145,15 @@ function buildReducerGroup(reducerGroup: GroupType, onReducer?: OnReducerApi) {
       'success',
       (state: any, action: any) => {
         const {done, result, payload, ...other} = action;
-        let newState = {};
+        let newState = {
+          result,
+          payload,
+          success: true,
+          loading: false,
+          ...other,
+        };
 
-        if (done) {
-          newState = result;
-        } else {
-          newState = {
-            result,
-            payload,
-            success: true,
-            loading: false,
-            ...other,
-          };
-        }
-
+        delete newState.type;
         if (onReducer) {
           newState = onReducer(newState, state, action, 'loading');
         }
@@ -176,6 +172,7 @@ function buildReducerGroup(reducerGroup: GroupType, onReducer?: OnReducerApi) {
           loading: false,
           ...other,
         };
+        delete newState.type;
         if (onReducer) {
           newState = onReducer(newState, state, action, 'loading');
         }
