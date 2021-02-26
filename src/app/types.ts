@@ -3,7 +3,7 @@ import {Store} from 'redux';
 
 export interface AppOptions {
   onEffect?: () => any;
-  onFetchOption?: () => any;
+  onFetchOption?: (option: any, reducer: ModelApi) => any;
   onReducer?: ReducerHandler;
   historyType?: any;
 }
@@ -29,6 +29,8 @@ export interface ModelApi {
   loading?: ReducerHandler;
   success?: ReducerHandler;
   failure?: ReducerHandler;
+  reducer?: ReducerHandler;
+  type?: string;
 }
 
 export interface AppApi {

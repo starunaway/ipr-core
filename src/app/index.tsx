@@ -3,9 +3,9 @@ import {isHTMLElement} from '@/utils/isType';
 import {createBrowserHistory, createHashHistory, History} from 'history';
 import {AppOptions, HistoryType, AppApi, ModelApi, OnReducerApi} from './types';
 import createSagaMiddleware from 'redux-saga';
-import createStore from './reducer';
+import createStore from './reducer/createStore';
 import reducerBuilder from './reducer/reducerBuilder';
-// import sagaBuilder from './redux/sagaBuilder';
+import sagaBuilder from './reducer/sagaBuilder';
 import renderApp from './renderApp';
 
 class IprApp implements AppApi {
@@ -14,7 +14,7 @@ class IprApp implements AppApi {
   history: History;
 
   private onEffect?: () => any;
-  private onFetchOption?: () => any;
+  private onFetchOption?: AppOptions['onFetchOption'];
   private onReducer?: OnReducerApi;
   private models: any[];
 
@@ -56,18 +56,18 @@ class IprApp implements AppApi {
     this.store = createStore({
       reducers,
       initialState,
-      //   sagaMiddleware,
+      sagaMiddleware,
     });
 
     (this.store as any).runSaga = sagaMiddleware.run;
 
-    // const sagas = sagaBuilder(this.models, {
-    //   onEffect: this.onEffect,
-    //   onFetchOption: this.onFetchOption,
-    //   history: this.history,
-    // });
+    const sagas = sagaBuilder(this.models, {
+      onEffect: this.onEffect,
+      onFetchOption: this.onFetchOption,
+      history: this.history,
+    });
 
-    // sagaMiddleware.run(sagas);
+    sagaMiddleware.run(sagas);
 
     this.history = patchHistory(this.history);
   };

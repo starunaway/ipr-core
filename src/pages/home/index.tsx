@@ -16,6 +16,13 @@ function HomePage(props: any) {
     });
   };
 
+  useEffect(() => {
+    Action.emit('history.balance', {
+      url: '12131313',
+      bondName: bondThree.bondName,
+    });
+  }, [bondThree]);
+
   return <Component name={bondThree.bondName} setName={setName}></Component>;
 }
 

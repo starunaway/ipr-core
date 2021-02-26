@@ -1,3 +1,4 @@
+import {ModelApi} from '@/app/types';
 /**
  *
  * 处理API请求结果
@@ -27,9 +28,9 @@ export const onEffect = async (action: any, res: any) => {
  * @param option
  * @param item
  */
-export const onFetchOption = (option: any, item: any) => {
+export const onFetchOption = (option: any, reducer: ModelApi) => {
   const opt = option;
-  if (item.key !== 'user.login') {
+  if (reducer.key !== 'user.login') {
     opt.headers = option.headers || {};
   }
 

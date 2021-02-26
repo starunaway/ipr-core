@@ -19,6 +19,9 @@ const history = [
   {
     key: 'history.balance',
     method: 'post',
+    url: (payload: any) => {
+      return payload.url;
+    },
   },
 ];
 
