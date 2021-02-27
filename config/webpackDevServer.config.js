@@ -48,5 +48,8 @@ module.exports = function (allowedHost) {
       index: paths.publicUrlOrPath,
     },
     public: allowedHost,
+    proxy: {
+      '/api': 'http://localhost:3000',
+    },
   };
 };

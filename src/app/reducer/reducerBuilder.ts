@@ -111,12 +111,11 @@ function buildReducerGroup(reducerGroup: GroupType, onReducer?: OnReducerApi) {
           ...payload,
           ...other,
         };
+
         delete newState.type;
-
         if (onReducer) {
-          newState = onReducer(newState, state, action, 'loading');
+          newState = onReducer(newState, state, action, 'reducer');
         }
-
         return newState;
       }
     );
@@ -132,8 +131,8 @@ function buildReducerGroup(reducerGroup: GroupType, onReducer?: OnReducerApi) {
           loading: true,
           ...other,
         };
-
         delete newState.type;
+
         if (onReducer) {
           newState = onReducer(newState, state, action, 'loading');
         }
@@ -155,7 +154,7 @@ function buildReducerGroup(reducerGroup: GroupType, onReducer?: OnReducerApi) {
 
         delete newState.type;
         if (onReducer) {
-          newState = onReducer(newState, state, action, 'loading');
+          newState = onReducer(newState, state, action, 'success');
         }
         return newState;
       }
@@ -172,9 +171,10 @@ function buildReducerGroup(reducerGroup: GroupType, onReducer?: OnReducerApi) {
           loading: false,
           ...other,
         };
+
         delete newState.type;
         if (onReducer) {
-          newState = onReducer(newState, state, action, 'loading');
+          newState = onReducer(newState, state, action, 'failure');
         }
         return newState;
       }
@@ -229,6 +229,15 @@ function createReducerHandler(
 ) {
   return (state: any, action: any) => {
     let result;
+
+    if (
+      reducer.url &&
+      !['SUCCESS', 'LOADING', 'FAILURE'].some((status) =>
+        action.type.includes(status)
+      )
+    ) {
+      return state;
+    }
 
     if (reducer[method] && !isFunction(reducer[method])) {
       throw new Error(`${reducer.key}'s ${method} must be function `);

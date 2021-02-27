@@ -20,6 +20,7 @@ const createDevServerConfig = require('../config/webpackDevServer.config');
 
 // Tools like Cloud9 rely on this.
 const HOST = process.env.HOST || '0.0.0.0';
+const port = 8000;
 
 const config = configFactory('development');
 const protocol = process.env.HTTPS === 'true' ? 'https' : 'http';
@@ -28,7 +29,7 @@ const appName = require(paths.appPackageJson).name;
 const urls = prepareUrls(
   protocol,
   HOST,
-  3000,
+  port,
   paths.publicUrlOrPath.slice(0, -1)
 );
 
@@ -53,7 +54,7 @@ const compiler = createCompiler({
 const serverConfig = createDevServerConfig(urls.lanUrlForConfig);
 const devServer = new WebpackDevServer(compiler, serverConfig);
 // Launch WebpackDevServer.
-devServer.listen(3000, HOST, (err) => {
+devServer.listen(port, HOST, (err) => {
   if (err) {
     return console.log(err);
   }

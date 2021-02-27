@@ -1,4 +1,4 @@
-import {ModelApi} from '@/app/types';
+import {ModelApi, PutAction} from '@/app/types';
 /**
  *
  * 处理API请求结果
@@ -7,18 +7,18 @@ import {ModelApi} from '@/app/types';
  * @param res
  */
 
-export const onEffect = async (action: any, res: any) => {
-  const temp = action;
-  try {
-    const body = await res.json();
-    temp.status = body.status;
-    temp.loading = false;
-    temp.result = body.result;
-  } catch (error) {
-    temp.success = false;
-    temp.error = '请求失败';
+export const onSuccess = (action: PutAction, res: any): any => {
+  const result: any = {
+    result: res.data.result,
+    loading: false,
+    success: res.data.success,
+  };
+
+  if (res.data.errMsg) {
+    result.error = res.data.errMsg;
   }
-  return temp;
+
+  return result;
 };
 
 /**

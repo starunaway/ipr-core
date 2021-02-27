@@ -13,17 +13,17 @@ class IprApp implements AppApi {
   store: any;
   history: History;
 
-  private onEffect?: () => any;
+  private onSuccess?: () => any;
   private onFetchOption?: AppOptions['onFetchOption'];
   private onReducer?: OnReducerApi;
   private models: any[];
 
   constructor(opts: AppOptions) {
-    const {historyType, onEffect, onFetchOption, onReducer} = opts;
+    const {historyType, onSuccess, onFetchOption, onReducer} = opts;
 
     this.history = createBrowserHistory();
     this.models = [];
-    this.onEffect = onEffect;
+    this.onSuccess = onSuccess;
     this.onFetchOption = onFetchOption;
     this.onReducer = onReducer;
 
@@ -62,7 +62,7 @@ class IprApp implements AppApi {
     (this.store as any).runSaga = sagaMiddleware.run;
 
     const sagas = sagaBuilder(this.models, {
-      onEffect: this.onEffect,
+      onSuccess: this.onSuccess,
       onFetchOption: this.onFetchOption,
       history: this.history,
     });

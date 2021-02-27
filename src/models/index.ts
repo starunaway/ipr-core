@@ -18,9 +18,12 @@ const history = [
   },
   {
     key: 'history.balance',
-    method: 'post',
+    method: 'get',
     url: (payload: any) => {
-      return payload.url;
+      return '/api/math/random?count=5';
+    },
+    reducer: (state: any, action: any) => {
+      console.log('reducer--------', state, action);
     },
   },
 ];

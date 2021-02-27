@@ -2,11 +2,23 @@ import {History} from 'history';
 import {Store} from 'redux';
 
 export interface AppOptions {
-  onEffect?: (action?: any, response?: any, history?: any) => any;
+  onSuccess?: (action?: any, response?: any, history?: any) => any;
   onFetchOption?: (option: any, reducer: ModelApi) => any;
   onReducer?: ReducerHandler;
   historyType?: any;
 }
+
+export type PutAction = {
+  type: string;
+  payload: any;
+  loading?: boolean;
+  success?: boolean;
+  status?: number;
+  message?: string;
+  result?: {} | null;
+  url?: string;
+  error?: any;
+};
 
 export enum HistoryType {
   HASH = 'HASH',
