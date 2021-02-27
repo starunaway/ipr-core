@@ -1,12 +1,10 @@
 import {ModelApi, PutAction} from '@/app/types';
+
 /**
- *
  * 处理API请求结果
- *
  * @param action
  * @param res
  */
-
 export const onSuccess = (action: PutAction, res: any): any => {
   const result: any = {
     result: res.data.result,
@@ -22,9 +20,7 @@ export const onSuccess = (action: PutAction, res: any): any => {
 };
 
 /**
- *
  * 调用API时添加默认参数
- *
  * @param option
  * @param item
  */

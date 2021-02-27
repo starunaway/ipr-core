@@ -4,9 +4,7 @@ import {isStateLegal} from './utils';
 import {isFunction} from '@/utils/isType';
 
 /**
- *
  * 创建reducer
- *
  * @param options
  * @param onReducer
  */
@@ -37,7 +35,6 @@ type GroupType = Map<string, ModelApi>;
 
 /**
  * 将models 按一级key分组
- *
  * @param reducers
  * @param reducer
  */
@@ -263,9 +260,8 @@ function createReducerHandler(
 
 /**
  * 创建reducer -> 组级别的根reducer
- *
  * @param initialState
- * @param hanlers
+ * @param hanlers：action 对应的handler
  */
 function createReducer(initialState: object, handlers: object) {
   return (state: any = initialState, action: any) => {

@@ -1,5 +1,9 @@
 import {applyMiddleware, compose, createStore} from 'redux';
 
+/**
+ * 创建redux.store
+ * @param opts
+ */
 function createIprStore(opts: any) {
   const {reducers, initialState, sagaMiddleware} = opts;
 

@@ -95,6 +95,7 @@ class IprApp implements AppApi {
 
     this.render(container);
   };
+
   setRouter = (router: (app: IprApp) => JSX.Element) => {
     this.router = router;
   };
@@ -111,10 +112,14 @@ class IprApp implements AppApi {
   };
 }
 
+/**
+ * 给  history.listen 额外添加一个回调函数，监听事件时触发自定义逻辑
+ * @param history
+ */
 function patchHistory(history: History) {
   const oldListen = history.listen;
   history.listen = (callback: any) => {
-    callback(history.location);
+    callback && callback(history.location);
     return oldListen.call(history, callback);
   };
   return history;

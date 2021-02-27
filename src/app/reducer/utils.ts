@@ -6,7 +6,6 @@ import {isEmptyObject} from '@/utils/isType';
  * @param state
  * @param reducer
  */
-
 export function isStateLegal(state: any, reducer: ModelApi) {
   const reducerKey = reducer.key.split('.');
   reducerKey.shift();
@@ -50,6 +49,11 @@ function getDeepStateKey(
   });
 }
 
+/**
+ * 拼接key
+ * @param key
+ * @param initialKey
+ */
 function getKey(key: string, initialKey?: string): string {
   return initialKey ? `${initialKey}.${key}` : key;
 }

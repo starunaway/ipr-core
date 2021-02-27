@@ -3,6 +3,12 @@ import {fork, call, put, takeEvery} from 'redux-saga/effects';
 import {AppOptions, ModelApi, PutAction} from '../types';
 import axios from 'axios';
 
+/**
+ * 创建sagas，只针对需要网络请求的model
+ * @param models
+ * @param args
+ */
+
 function sagaBuilder(models: Array<ModelApi | Array<ModelApi>>, args: any) {
   const sagaModels = models.flat();
   const sagaArr: any = [];
@@ -19,22 +25,15 @@ function sagaBuilder(models: Array<ModelApi | Array<ModelApi>>, args: any) {
   };
 }
 
-// type PutAction = {
-//   type: string;
-//   payload: any;
-//   loading?: boolean;
-//   success?: boolean;
-//   status?: number;
-//   message?: string;
-//   result?: {} | null;
-//   url?: string;
-//   error?: any;
-// };
-
 type CreateOptions = AppOptions & {
   history: History;
 };
 
+/**
+ * 创建每个model对应的saga
+ * @param model
+ * @param args
+ */
 function createSaga(model: ModelApi, args: CreateOptions) {
   const {onFetchOption, onSuccess, history} = args;
   return function* () {
@@ -100,6 +99,11 @@ function createSaga(model: ModelApi, args: CreateOptions) {
   };
 }
 
+/**
+ * 创建axios的请求参数
+ * @param model
+ * @param payload
+ */
 function createOption(model: ModelApi, payload: any) {
   const {method, type = 'json', headers, bodyParser} = model;
   const option: any = {};
